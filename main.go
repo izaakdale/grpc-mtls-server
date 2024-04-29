@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net"
 	"os"
@@ -29,7 +30,7 @@ func (*server) Call(ctx context.Context, req *v1.Request) (*v1.Response, error) 
 }
 
 func main() {
-	ls, err := net.Listen("tcp", "localhost:7777")
+	ls, err := net.Listen("tcp", fmt.Sprintf("%s:%s", os.Getenv("HOST"), os.Getenv("PORT")))
 	if err != nil {
 		panic(err)
 	}
