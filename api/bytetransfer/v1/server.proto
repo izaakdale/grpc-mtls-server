@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package bytetransfer;
+option go_package="api/bytetransfer/v1";
+
+message Request {
+  bytes body = 1;
+}
+
+message Response {
+  bytes body = 1;
+}
+
+service Remote {
+  rpc Call(Request) returns (Response);
+}
