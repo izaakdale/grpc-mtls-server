@@ -11,7 +11,6 @@ import (
 
 	v1 "github.com/izaakdale/grpc-mtls-server/api/bytetransfer/v1"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"
 )
 
@@ -35,15 +34,16 @@ func main() {
 		panic(err)
 	}
 
-	certFile := os.Getenv("SERVER_CRT")
-	keyFile := os.Getenv("SERVER_KEY")
+	// certFile := os.Getenv("SERVER_CRT")
+	// keyFile := os.Getenv("SERVER_KEY")
 
-	creds, err := credentials.NewServerTLSFromFile(certFile, keyFile)
-	if err != nil {
-		log.Fatalf("Error reading TLS cert/key: %v", err)
-	}
+	// creds, err := credentials.NewServerTLSFromFile(certFile, keyFile)
+	// if err != nil {
+	// 	log.Fatalf("Error reading TLS cert/key: %v", err)
+	// }
 
-	gsrv := grpc.NewServer(grpc.Creds(creds))
+	gsrv := grpc.NewServer()
+	// gsrv := grpc.NewServer(grpc.Creds(creds))
 	reflection.Register(gsrv)
 
 	srv := server{}
