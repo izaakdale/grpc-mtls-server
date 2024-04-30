@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	v1 "github.com/izaakdale/grpc-mtls-server/api/bytetransfer/v1"
 	"google.golang.org/grpc"
@@ -20,12 +21,18 @@ type server struct {
 	v1.UnimplementedRemoteServer
 }
 
-type msg struct {
-	Message string
-}
-
 func (*server) Call(ctx context.Context, req *v1.Request) (*v1.Response, error) {
 	return &v1.Response{Body: []byte("server says hello\n")}, nil
+}
+
+// Stream implements v1.RemoteServer.
+func (s *server) Stream(req *v1.Request, st v1.Remote_StreamServer) error {
+	for {
+		if err := st.Send(&v1.Response{Body: []byte("server says hello\n")}); err != nil {
+			return err
+		}
+		time.Sleep(time.Second * 3)
+	}
 }
 
 func main() {

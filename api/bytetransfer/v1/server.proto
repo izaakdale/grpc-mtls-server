@@ -13,4 +13,5 @@ message Response {
 
 service Remote {
   rpc Call(Request) returns (Response);
+  rpc Stream(Request) returns (stream Response);
 }
